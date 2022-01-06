@@ -1,0 +1,22 @@
+<!doctype html>
+<title>Quart_demo</title>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='notes.css') }}">
+{% block content %}
+  <div class="posts">
+    <ol>
+  {% for post in posts %}
+    <div><li><h2>{{ post.title }}</h2>{{ post.text|safe }}</li></div>
+    <br>
+  {% else %}
+    <div>No posts available</div>
+  {% endfor %}
+    </ol>
+  </div>
+  <div class="form">
+    <form action="{{ url_for('create') }}" method="post" class="create-post">
+      <p>Title:<input type="text" size="50" name="title">
+      <p>Text:<textarea name="text" rows="5" cols="100"></textarea>
+      <p><input type="submit" value="Submit">
+    </form>
+  </div>
+{% endblock %}
