@@ -1,5 +1,6 @@
-export QUART_APP=notes:app
-//first time
-quart init_db
+##export QUART_APP=notes:app
 
-quart run
+//first time
+##quart init_db
+
+##quart run
