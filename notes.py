@@ -12,11 +12,11 @@ app.config.update({
 
 
 @app.route('/', methods=['GET'])
-async def posts():
+async def notes():
     db = get_db()
-    cur = db.execute('SELECT title, text FROM post')
-    posts = cur.fetchall()
-    return await render_template('notes_home.html', posts=posts)
+    cur = db.execute('SELECT title, text FROM note')
+    notes = cur.fetchall()
+    return await render_template('notes_home.html', notes=notes)
 
 
 @app.route('/', methods=['POST'])
@@ -24,11 +24,11 @@ async def create():
     db = get_db()
     form = await request.form
     db.execute(
-        "INSERT INTO post (title, text) VALUES (?, ?)",
+        "INSERT INTO note (title, text) VALUES (?, ?)",
         [form['title'], form['text']],
     )
     db.commit()
-    return redirect(url_for('posts'))
+    return redirect(url_for('notes'))
 
 
 def connect_db():
