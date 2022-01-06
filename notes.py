@@ -42,6 +42,24 @@ async def create():
     db.commit()
     return redirect(url_for('notes'))
 
+@app.route('/update/', methods=['POST'])
+async def update():
+    form = await request.form
+    print("update bef",form)
+    return await render_template('update.html', note=form['note'])
+
+@app.route('/update_page/', methods=['POST'])
+async def update_page():
+    db = get_db()
+    form = await request.form
+    print("update aft",form)
+    db.execute(
+        "UPDATE note SET title,text VALUES ( ? , ? ) WHERE id = ?;",
+        [form['title'], form['text'], form['note_id']],
+    )
+    db.commit()
+    return redirect(url_for('notes'))
+
 def connect_db():
     engine = sqlite3.connect(app.config['DATABASE'])
     engine.row_factory = sqlite3.Row

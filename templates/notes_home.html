@@ -9,6 +9,9 @@
       <form action="{{ url_for('delete') }}" method="POST" class="delete-note">
       <button id='submit' class="button button1" type='submit' name = 'note_id'    value = "{{ note.id }}">Delete</button>
       </form>
+      <form action="{{ url_for('update') }}" method="POST" class="update-note">
+      <button id='submit' class="button button2" type='submit' name = 'note'    value = "{{ note }}">Update</button>
+      </form>
     </li>
   </div>
     <br>

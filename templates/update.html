@@ -1,0 +1,15 @@
+<!doctype html>
+<title>Update Page</title>
+
+{% block content %}
+
+<div class="form">
+  <h2>{{ note.title }}</h2>{{ note.text }}
+    <form action="{{ url_for('update_page') }}" method="post" class="update-note">
+      <p>Title:<input autocomplete='off' type="text" size="50" name="title" value="{{ note.title }}">
+      <p>Text:<textarea name="text" rows="5" cols="100" value="{{ note.text }}"></textarea>
+      <p><button id='submit' class="button button1" type='submit' name = 'note_id'    value = "{{ note.id }}">Update</button>
+    </form>
+  </div>
+
+{% endblock %}
