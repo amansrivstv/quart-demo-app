@@ -5,7 +5,12 @@
   <div class="notes">
     <ol>
   {% for note in notes %}
-    <div><li><h2>{{ note.title }}</h2>{{ note.text|safe }}</li></div>
+    <div><li><h2>{{ note.title }}</h2>{{ note.text }}
+      <form action="{{ url_for('delete') }}" method="POST" class="delete-note">
+      <button id='submit' class="button button1" type='submit' name = 'note_id'    value = "{{ note.id }}">Delete</button>
+      </form>
+    </li>
+  </div>
     <br>
   {% else %}
     <div>No notes available</div>

@@ -14,22 +14,33 @@ app.config.update({
 @app.route('/', methods=['GET'])
 async def notes():
     db = get_db()
-    cur = db.execute('SELECT title, text FROM note')
+    cur = db.execute('SELECT id, title, text FROM note')
     notes = cur.fetchall()
     return await render_template('notes_home.html', notes=notes)
 
+@app.route('/delete/', methods=['POST'])
+async def delete():
+    db = get_db()
+    form = await request.form
+    print("delete",form)
+    db.execute(
+        "DELETE FROM note WHERE id= ? ",
+        [form['note_id']],
+    )
+    db.commit()
+    return redirect(url_for('notes'))
 
-@app.route('/', methods=['POST'])
+@app.route('/create/', methods=['POST'])
 async def create():
     db = get_db()
     form = await request.form
+    print("create",form)
     db.execute(
         "INSERT INTO note (title, text) VALUES (?, ?)",
         [form['title'], form['text']],
     )
     db.commit()
     return redirect(url_for('notes'))
-
 
 def connect_db():
     engine = sqlite3.connect(app.config['DATABASE'])
