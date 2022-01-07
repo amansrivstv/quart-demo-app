@@ -18,7 +18,7 @@ async def notes():
     notes = cur.fetchall()
     return await render_template('notes_home.html', notes=notes)
 
-@app.route('/delete/', methods=['POST'])
+@app.route('/delete/', methods=['DELETE'])
 async def delete():
     db = get_db()
     form = await request.form
@@ -45,8 +45,15 @@ async def create():
 @app.route('/update/', methods=['POST'])
 async def update():
     form = await request.form
-    print("update bef",form)
-    return await render_template('update.html', note=form['note'])
+    print("update bef",form['note_id'])
+    db = get_db()
+    cur = db.execute('SELECT id , title, text FROM note WHERE note.id = ? ',
+        [form['note_id']],
+    )
+
+    note = cur.fetchall()
+    print(note[0])
+    return await render_template('update.html', note=note[0])
 
 @app.route('/update_page/', methods=['POST'])
 async def update_page():
@@ -54,7 +61,7 @@ async def update_page():
     form = await request.form
     print("update aft",form)
     db.execute(
-        "UPDATE note SET title,text VALUES ( ? , ? ) WHERE id = ?;",
+        'UPDATE note SET title = ? , text = ? WHERE note.id = ? ',
         [form['title'], form['text'], form['note_id']],
     )
     db.commit()
